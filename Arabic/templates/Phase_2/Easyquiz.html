@@ -1,0 +1,174 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/question.css' %}">
+<div class="quiz-container" id="quiz">
+    <div class="quiz-header">
+      <h2 id="question">Question Text</h2>
+      <ul>
+        <li>
+          <input type="radio" name="answer" id="a" class="answer">
+          <label for="a" id="a_text">Answer</label>
+        </li>
+        <li>
+          <input type="radio" name="answer" id="b" class="answer">
+          <label for "b" id="b_text">Answer</label>
+        </li>
+        <li>
+          <input type="radio" name="answer" id="c" class="answer">
+          <label for="c" id="c_text">Answer</label>
+        </li>
+        <li>
+          <input type="radio" name="answer" id="d" class="answer">
+          <label for="d" id="d_text">Answer</label>
+        </li>
+      </ul>
+    </div>
+    <button id="submit">Submit</button>
+</div>
+
+<div class="incorrect-answers" style="display: none;">
+    <h2>Incorrect Answers</h2>
+    <ul id="incorrect-answer-list"></ul>
+    <button id="hide-incorrect-answers">Hide Incorrect Answers</button>
+</div>
+
+<script type="text/javascript">
+const quizData = [
+    {
+        question: "What comes after ج_ت  ب ا ",
+        a: "ش",
+        b: "ق",
+        c: "ح",
+        d: "ث",
+        correct: "d",
+    },
+    {
+        question: "fill in the blanks with the required letter مدر_ة",
+        a: "س",
+        b: "ج",
+        c: "٥",
+        d: "ف",
+        correct: "a",
+    },
+    {
+        question: "What is Red color called in Arabic?",
+        a: "أحمر",
+        b: "أزرق",
+        c: "أبيض",
+        d: "أصفر",
+        correct: "a",
+    },
+];
+
+const quiz = document.getElementById('quiz');
+const answerEls = document.querySelectorAll('.answer');
+const questionEl = document.getElementById('question');
+const a_text = document.getElementById('a_text');
+const b_text = document.getElementById('b_text');
+const c_text = document.getElementById('c_text');
+const d_text = document.getElementById('d_text');
+const submitBtn = document.getElementById('submit');
+const incorrectAnswers = [];
+
+let currentQuiz = 0;
+let score = 0;
+
+loadQuiz();
+
+function loadQuiz() {
+    deselectAnswers();
+    const currentQuizData = quizData[currentQuiz];
+    questionEl.innerText = currentQuizData.question;
+    a_text.innerText = currentQuizData.a;
+    b_text.innerText = currentQuizData.b;
+    c_text.innerText = currentQuizData.c;
+    d_text.innerText = currentQuizData.d;
+}
+
+function deselectAnswers() {
+    answerEls.forEach(answerEl => answerEl.checked = false);
+}
+
+function getSelected() {
+    let answer;
+    answerEls.forEach(answerEl => {
+        if (answerEl.checked) {
+            answer = answerEl.id;
+        }
+    });
+    return answer;
+}
+
+function redirect() {
+    window.location.href = 'http://127.0.0.1:8000/Phase2/';
+}
+
+submitBtn.addEventListener('click', () => {
+    const answer = getSelected();
+    if (answer) {
+        if (answer === quizData[currentQuiz].correct) {
+            score++;
+        } else {
+            // Store incorrect answer
+            incorrectAnswers.push(quizData[currentQuiz]);
+        }
+        currentQuiz++;
+
+        if (currentQuiz < quizData.length) {
+            loadQuiz();
+        } else {
+            // Quiz completed
+            quiz.innerHTML = `
+                <h2>You answered ${score}/${quizData.length} questions correctly</h2>
+                <button id="show-incorrect-answers">Show Incorrect Answers</button>
+                <button onclick="redirect()">Next</button>
+            `;
+
+            const showIncorrectAnswersBtn = document.getElementById('show-incorrect-answers');
+            showIncorrectAnswersBtn.addEventListener('click', () => {
+                showIncorrectAnswers();
+            });
+        }
+    }
+});
+
+function showIncorrectAnswers() {
+    const incorrectAnswersContainer = document.querySelector('.incorrect-answers');
+    const incorrectAnswerList = document.getElementById('incorrect-answer-list');
+
+    // Clear any previous incorrect answers
+    incorrectAnswerList.innerHTML = '';
+
+    // Display incorrect answers
+    incorrectAnswers.forEach((incorrectAnswer, index) => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <strong>Question ${index + 1}:</strong> ${incorrectAnswer.question} - Correct Answer: ${getCorrectAnswer(incorrectAnswer)}
+        `;
+        incorrectAnswerList.appendChild(listItem);
+    });
+
+    incorrectAnswersContainer.style.display = 'block';
+
+    // Add event listener for hiding incorrect answers
+    const hideIncorrectAnswersBtn = document.getElementById('hide-incorrect-answers');
+    hideIncorrectAnswersBtn.addEventListener('click', () => {
+        incorrectAnswersContainer.style.display = 'none';
+    });
+}
+
+function getCorrectAnswer(incorrectAnswer) {
+    const correctAnswerId = incorrectAnswer.correct;
+    switch (correctAnswerId) {
+        case 'a':
+            return incorrectAnswer.a;
+        case 'b':
+            return incorrectAnswer.b;
+        case 'c':
+            return incorrectAnswer.c;
+        case 'd':
+            return incorrectAnswer.d;
+        default:
+            return '';
+    }
+}
+</script>

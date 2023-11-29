@@ -1,0 +1,143 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIIS Dubai Arabic Learning - Phase 1</title>
+    <style>
+        /* Add your CSS styles specific to the Phase 1 page here */
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('{% static 'img/_1.JPG' %}') center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            animation: cycleBackground 10s linear infinite; /* Add animation to cycle through images */
+        }
+
+        /* Define multiple background images in the animation */
+        @keyframes cycleBackground {
+            0%, 100% {
+                background-image: url('{% static 'img/_1.JPG' %}');
+            }
+            25% {
+                background-image: url('{% static 'img/_2.JPG' %}');
+            }
+            50% {
+                background-image: url('{% static 'img/_3.JPG' %}');
+            }
+            75% {
+                background-image: url('{% static 'img/_4.JPG' %}');
+            }
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: rgb(240, 240, 240, 0.6);
+            font-size: 1.2rem;
+            transition: color 0.5s;
+        }
+
+        .navbar a:hover {
+            color: white;
+        }
+
+        .logo {
+            margin-left: 20px;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: -1;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+        }
+
+        .phase-title {
+            font-size: 2rem;
+        }
+
+        .phase-description {
+            font-size: 1.5rem;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .phase-button {
+            background-color: white;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        .phase-button:hover {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="{% static 'img/download Background Removed.png' %}" alt="Logo" width="100">
+        </div>
+        <ul>
+            <li><a href="{% url 'home'%}">Arabic</a></li>
+            <li><a href="{% url 'phase1' %}">Phase 1</a></li>
+            <li><a href="{% url 'phase2' %}">Phase 2</a></li>
+            <li><a href="#phase3">Phase3</a></li>
+        </ul>
+    </div>
+    <div class="overlay"></div>
+    <div class="content">
+        <h1 class="phase-title">Phase 1 - Beginner</h1>
+        <p class="phase-description">Welcome to Phase 1. Start your Arabic learning journey here.</p>
+        <div class="button-container">
+            <button class="phase-button" onclick="window.location.href='http://127.0.0.1:8000/Phase1/easy/'">Beginner</button>
+            <button class="phase-button" onclick="window.location.href='http://127.0.0.1:8000/Phase1/medium/'">Intermediate</button>
+            <button class="phase-button" onclick="window.location.href='http://127.0.0.1:8000/Phase1/hard/'">Expert</button>
+        </div>
+    </div>
+</body>
+</html>

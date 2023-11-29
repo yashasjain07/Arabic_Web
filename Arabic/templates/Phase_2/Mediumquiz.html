@@ -1,0 +1,149 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/question.css' %}">
+<div class="quiz-container" id="quiz">
+    <div class="quiz-header">
+      <h2 id="question">Question Text</h2>
+      <ul>
+        <li>
+          <input type="radio" name="answer" id="a" class="answer">
+          <label for="a" id="a_text">Answer</label>
+        </li>
+        <li>
+          <input type="radio" name="answer" id="b" class="answer">
+          <label for="b" id="b_text">Answer</label>
+        </li>
+        <li>
+          <input type="radio" name="answer" id="c" class="answer">
+          <label for="c" id="c_text">Answer</label>
+        </li>
+        <li>
+          <input type="radio" name="answer" id="d" class="answer">
+          <label for="d" id="d_text">Answer</label>
+        </li>
+      </ul>
+    </div>
+    <button id="submit">Submit</button>
+    <button id="show-incorrect-answers" style="display: none;">Show Incorrect Answers</button>
+  </div>
+
+<div id="incorrect-answers-container" style="display: none;">
+    <h3>Incorrect Answers:</h3>
+    <ul id="incorrect-answer-list">
+        <!-- Incorrect answers will be displayed here -->
+    </ul>
+</div>
+<script type="text/javascript">
+const quizData = [
+    {
+        question: "Number 3 in English spelling in the question and 1,2,3,4 in Arabic number format",
+        a: "٩",
+        b: "٣",
+        c: "٥",
+        d: "٢",
+        correct: "b",
+    },
+    {
+        question: "4 Students are traveling in a bus. How many people are traveling?",
+        a: "١",
+        b: "٥",
+        c: "٤",
+        d: "٨",
+        correct: "c",
+    },
+    {
+        question: "Write the following number in Arabic - 9",
+        a: "٥",
+        b: "٤",
+        c: "٨",
+        d: "٩",
+        correct: "d",
+    },
+];
+
+const quiz= document.getElementById('quiz')
+const answerEls = document.querySelectorAll('.answer')
+const questionEl = document.getElementById('question')
+const a_text = document.getElementById('a_text')
+const b_text = document.getElementById('b_text')
+const c_text = document.getElementById('c_text')
+const d_text = document.getElementById('d_text')
+const submitBtn = document.getElementById('submit')
+const showIncorrectBtn = document.getElementById('show-incorrect-answers')
+
+let currentQuiz = 0
+let score = 0
+
+loadQuiz()
+
+function loadQuiz() {
+    deselectAnswers()
+    const currentQuizData = quizData[currentQuiz]
+    questionEl.innerText = currentQuizData.question
+    a_text.innerText = currentQuizData.a
+    b_text.innerText = currentQuizData.b
+    c_text.innerText = currentQuizData.c
+    d_text.innerText = currentQuizData.d
+}
+
+function deselectAnswers() {
+    answerEls.forEach(answerEl => answerEl.checked = false)
+}
+
+function getSelected() {
+    let answer
+    answerEls.forEach(answerEl => {
+        if(answerEl.checked) {
+            answer = answerEl.id
+        }
+    })
+    return answer
+}
+
+function Myfuction(){
+    window.location.href = 'http://127.0.0.1:8000/Phase2/';
+}
+
+submitBtn.addEventListener('click', () => {
+    const answer = getSelected()
+    if(answer) {
+       if(answer === quizData[currentQuiz].correct) {
+           score++
+       }
+       currentQuiz++
+       if(currentQuiz < quizData.length) {
+           loadQuiz()
+       } else {
+           showIncorrectBtn.style.display = 'block'; // Show the button after the quiz ends
+           quiz.innerHTML = `
+           <h2>You answered ${score}/${quizData.length} questions correctly</h2>
+           <button onclick= Myfuction()>Next</button>
+           `
+       }
+    }
+})
+
+showIncorrectBtn.addEventListener('click', () => {
+    showIncorrectAnswers();
+});
+
+function showIncorrectAnswers() {
+    const incorrectAnswersContainer = document.getElementById('incorrect-answers-container');
+    const incorrectAnswerList = document.getElementById('incorrect-answer-list');
+
+    // Clear previous incorrect answers
+    incorrectAnswerList.innerHTML = '';
+
+    quizData.forEach((quiz, index) => {
+        const selectedAnswer = getSelectedAnswer(index);
+        if (selectedAnswer && selectedAnswer !== quiz.correct) {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+            - Question: ${quiz.question}
+            - Correct Answer: ${getCorrectAnswer(quiz)}
+            - Your Answer: ${selectedAnswer}
+            `;
+            incorrectAnswerList.appendChild(listItem);
+        }
+    })};
+
+</script>

@@ -1,0 +1,181 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIIS, Dubai Arabic Learning</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url({% static 'img/GIIS.jpeg' %}) center bottom no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center center;
+
+            color: white;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.6);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo {
+            margin-left: 20px;
+        }
+
+        .navbar-items {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-items a {
+            color: gray;
+            text-decoration: none;
+            font-size: large;
+            transition: color 0.5s;
+        }
+
+        .navbar-items a:hover {
+            color: white;
+        }
+        .frontpage-images {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 30px 0; /* Adjust the margin as needed */
+}
+
+.frontpage-images img {
+    width: 300px; /* Adjust the image size as needed */
+    height: auto;
+}
+
+
+        .items-container {
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .items {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .item {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border: 1px solid white;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .item h2 {
+            font-size: 28px;
+        }
+
+        .item p {
+            font-size: 20px;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.5) center bottom no-repeat;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: -1;
+        }
+
+        .item button {
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 30px;
+            cursor: pointer;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        .item button:hover {
+            background: black;
+            color: white;
+        }
+
+        .blank-space {
+            height: 12.5vh;
+        }
+
+        .space-below-items {
+            height: 30vh;
+        }
+
+        .website-description {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .giis-dubai {
+            font-size: 36px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="navbar-logo">
+            <img src="{% static 'img/download Background Removed.png' %}" alt="Logo" width="100">
+        </div>
+        <div class="navbar-items">
+            <a href="{% url 'home'%}">Arabic</a>
+            <a href="{% url 'phase1' %}">Phase 1</a>
+            <a href="{% url 'phase2' %}">Phase 2</a>
+            <a href="#phase3">Phase 3</a>
+        </div>
+    </div>
+
+    <div class="items-container">
+        <h1 class="giis-dubai">GIIS DUBAI</h1>
+        <p class="website-description">Welcome to our Arabic learning platform. Start your journey with us today!</p>
+    </div>
+    <div class="overlay"></div>
+    <div class="blank-space"></div>
+    <div class="frontpage-images">
+    <img src="{% static 'img/_1.JPG' %}" alt="Image 1">
+    <img src="{% static 'img/_2.JPG' %}" alt="Image 2">
+    <img src="{% static 'img/_3.JPG' %}" alt="Image 3">
+    <img src="{% static 'img/_4.JPG' %}" alt="Image 4">
+</div>
+    <div class="items">
+    <div class="item">
+        <h2>Phase 1</h2>
+        <a href="{% url 'phase1' %}"><button>Learn</button></a>
+    </div>
+    <div class="item">
+        <h2>Phase 2</h2>
+        <a href="{% url 'phase2' %}"><button>Learn</button></a>
+    </div>
+    <div class="item">
+        <h2>Phase 3</h2>
+        <a href=""><button>Learn</button></a>
+    </div>
+</div>
+    </div>
+    <div class="space-below-items"></div>
+</body>
+</html>
